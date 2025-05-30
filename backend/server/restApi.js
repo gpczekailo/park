@@ -18,13 +18,14 @@ class RestApiIfc extends Server {
         super(options, standardCnfDefaults);
 
         this._app = express();
-        const apiSpec = join(__dirname, '../swagger/api.yaml');
+        const apiSpec = YAML.load(join(global.projectRoot, 'backend/swagger/api.yaml'));
+        apiSpec.components = YAML.load(join(global.projectRoot, 'backend/swagger/components.yaml'));
         // 1. Install bodyParsers for the request types your API will support
         this._app.use(express.urlencoded({ extended: false }));
         this._app.use(express.text());
         this._app.use(express.json());
         this._app.disable('x-powered-by');
-        this._app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(YAML.load(apiSpec)));
+        this._app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(apiSpec));
         this._app.get('/', async (req, res, next) => {
             res.redirect('/app');
         })

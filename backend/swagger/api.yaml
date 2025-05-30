@@ -3,13 +3,47 @@ info:
   title: Park API
   version: 1.0.0
 paths:
-  /hello:
+  /login:
+    post:
+      tags:
+        - auth
+      summary: Login in the application
+      operationId: login
+      x-eov-operation-handler: auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/admin-credentials-login'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/login-success'
+        default:
+          $ref: '#/components/responses/error'
+  /logout:
+    post:
+      tags:
+        - auth
+      summary: Logout in the application
+      operationId: logout
+      x-eov-operation-handler: auth
+      responses:
+        '200':
+          $ref: '#/components/responses/empty-body'
+        default:
+          $ref: '#/components/responses/error'
+  /token:
     get:
       tags:
-        - hello
-      summary: Returns a greeting
-      operationId: sayHello
-      x-eov-operation-handler: hello
+        - auth
+      summary: Login in the application
+      operationId: token
+      x-eov-operation-handler: auth
       responses:
         '200':
           description: A successful response

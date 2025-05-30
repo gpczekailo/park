@@ -1,0 +1,75 @@
+
+schemas:
+  uuid:
+    type: string
+    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+    minLength: 36
+    maxLength: 36
+    example: 9a0d9c95-f887-4a11-bb7a-94e7b85f9dba
+  admin-credentials-login:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+      keepLoggedIn:
+        description: True, if the refresh token shall be valid for 1 week
+        type: boolean
+        default: false
+    example:
+        username: "admin"
+        password: "change_me"
+        keepLoggedIn: false
+  roles:
+    type: string
+    enum:
+      - 'FULL_ADMIN'
+      - 'REGULAR_USER'
+
+responses:
+  error:
+    description: Error response, including unauthorized or not found.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: integer
+              format: int32
+              description: HTTP response code.
+            message:
+              type: string
+              description: Meaningful error description.
+          example:
+            code: 404
+            message: "Not found"
+  login-success:
+    description: Successful response
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            roles:
+              type: array
+              description: Roles assigned to this user
+              properties:
+                items:
+                  $ref: '#/components/schemas/roles'
+          example:
+              roles: ['FULL_ADMIN']
+  empty-body:
+    description: Empty response
+    content:
+      application/json:
+        schema:
+          type: object
+          nullable: true
