@@ -38,7 +38,7 @@ export default function Login() {
               className="form-control"
               value={username}
               onChange={e => setUsername(e.target.value)}
-              placeholder="you@example.com"
+              placeholder="username"
               required
             />
           </div>
