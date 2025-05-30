@@ -9,7 +9,7 @@ const swaggerUi = require('swagger-ui-express');
 const Server = require('./server.js');
 
 const standardCnfDefaults = {
-    port: 3000,
+    port: 3001,
     timeout: 120000
 }
 

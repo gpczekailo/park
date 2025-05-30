@@ -1,16 +1,23 @@
 // src/services/authService.js
 import { fetchAPI } from '../Utils'
 
-export async function loginUser(credentials) {
-  const res = await fetchAPI('/login', credentials)
+export async function loginUser(loginInfo) {
+  const options = {
+      method: "POST",
+      body: JSON.stringify({
+          username: loginInfo.username,
+          password: loginInfo.password,
+          keepLoggedIn: true// document.getElementById("keepLoggedIn").checked === true
+      })
+  }
+  const res = await fetchAPI('/login', options)
 
   if (!res.ok) {
     throw new Error('Login failed');
   }
 
   const data = await res.json();
-  localStorage.setItem('token', data.token); // Store JWT
-  return data.username;
+  return data.user;
 }
 
 export async function getCurrentUser() {
