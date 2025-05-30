@@ -8,7 +8,7 @@ const JWT_SECRET = 'your_jwt_secret'; // In real apps, use env vars
 async function login (req, res) {
     const username = req.body.username;
     const password = req.body.password;
-    if(username === 'admin' && password === 'change_me') {
+    if(username === 'admin2' && password === 'change_me') {
         const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
         res.cookie('parkToken', token, {
             httpOnly: true,
@@ -16,7 +16,7 @@ async function login (req, res) {
             sameSite: 'lax',    // Or 'strict'
             maxAge: 3600000     // 1 hour
         });
-        return res.json({ token, user: { id: 123, username, roles: ['admin'] } });
+        return res.json({ token, user: { id: 123, username, name: 'Reinaldo', roles: ['admin'] } });
     }
     return res.status(ResponseCode.Unauthorized);
 }
